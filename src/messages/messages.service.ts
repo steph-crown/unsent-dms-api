@@ -32,8 +32,25 @@ export class MessagesService {
     return result;
   }
 
-  findAll() {
-    return `This action returns all messages`;
+  async findAll(to: string, limit: number, offset: number) {
+    // if to is not provided, return all messages by limit and offset, else return messages by to, limit and offset
+
+    let messages: Message[];
+
+    if (to) {
+      messages = await this.messageRepository.find({
+        where: { to },
+        take: limit,
+        skip: offset,
+      });
+    } else {
+      messages = await this.messageRepository.find({
+        take: limit,
+        skip: offset,
+      });
+    }
+
+    return messages;
   }
 
   findOne(id: number) {

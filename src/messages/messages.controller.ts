@@ -1,20 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
+import { GetMessagesDto } from './dto/get-messages.dto';
 
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @Post()
-  create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messagesService.create(createMessageDto);
+  async create(@Body() createMessageDto: CreateMessageDto) {
+    const response = await this.messagesService.create(createMessageDto);
+
+    return {
+      message: 'Message created successfully',
+      data: response,
+      isSuccessful: true,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.messagesService.findAll();
+  findAll(@Query() query: GetMessagesDto) {
+    return this.messagesService.findAll(query.to, query.limit, query.offset);
   }
 
   @Get(':id')
