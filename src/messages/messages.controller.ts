@@ -44,8 +44,14 @@ export class MessagesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.messagesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const response = await this.messagesService.findOne(id);
+
+    return {
+      message: 'Message fetched successfully',
+      data: response,
+      isSuccessful: true,
+    };
   }
 
   @Patch(':id')

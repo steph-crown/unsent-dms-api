@@ -48,8 +48,10 @@ export class MessagesService {
     return { messages, total };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} message`;
+  async findOne(id: string) {
+    const message = await this.messageRepository.findOneBy({ id });
+
+    return message;
   }
 
   update(id: number, updateMessageDto: UpdateMessageDto) {
