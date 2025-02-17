@@ -1,4 +1,4 @@
-FROM node:18 as development
+FROM node:20 as development
 
 WORKDIR /usr/src/app
 
@@ -12,7 +12,7 @@ COPY src/ src/
 
 RUN npm run build
 
-FROM node:18 as builder
+FROM node:20 as builder
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ COPY package*.json ./
 
 RUN npm ci --production
 
-FROM node:18-alpine as production
+FROM node:20-alpine as production
 
 WORKDIR /app
 
