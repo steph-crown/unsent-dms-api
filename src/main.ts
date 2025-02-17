@@ -10,6 +10,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
+      'https://unsent-dms-api.onrender.com',
       'https://weoutsideapp.co',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
