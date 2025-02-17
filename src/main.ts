@@ -26,13 +26,15 @@ async function bootstrap() {
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup('swagger', app, documentFactory, {
-    customSiteTitle: 'unsent dms',
-    swaggerOptions: {
-      tagsSorter: 'alpha',
-      operationsSorter: 'alpha',
-    },
-  });
+  if (process.env.NODE_ENV !== 'production') {
+    SwaggerModule.setup('swagger', app, documentFactory, {
+      customSiteTitle: 'unsent dms',
+      swaggerOptions: {
+        tagsSorter: 'alpha',
+        operationsSorter: 'alpha',
+      },
+    });
+  }
 
   await app.listen(process.env.PORT ?? 3000);
 }
