@@ -43,6 +43,9 @@ export class MessagesService {
       where: whereCondition,
       skip: offset * limit,
       take: limit,
+      order: {
+        createdAt: 'DESC',
+      },
     });
 
     return { messages, total };
