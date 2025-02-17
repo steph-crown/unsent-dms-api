@@ -29,8 +29,18 @@ export class MessagesController {
   }
 
   @Get()
-  findAll(@Query() query: GetMessagesDto) {
-    return this.messagesService.findAll(query.to, query.limit, query.offset);
+  async findAll(@Query() query: GetMessagesDto) {
+    const response = await this.messagesService.findAll(
+      query.to,
+      query.limit,
+      query.offset,
+    );
+
+    return {
+      message: 'Messages fetched successfully',
+      data: response,
+      isSuccessful: true,
+    };
   }
 
   @Get(':id')

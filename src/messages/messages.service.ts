@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { runInTransaction } from 'src/common/utils/transaction.util';
+import { DataSource, Repository } from 'typeorm';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Message } from './entities/message.entity';
-import { DataSource, Repository } from 'typeorm';
-import { runInTransaction } from 'src/common/utils/transaction.util';
 
 @Injectable()
 export class MessagesService {
@@ -35,22 +35,17 @@ export class MessagesService {
   async findAll(to: string, limit: number, offset: number) {
     // if to is not provided, return all messages by limit and offset, else return messages by to, limit and offset
 
-    let messages: Message[];
+    const whereCondition = to ? { to } : {};
 
-    if (to) {
-      messages = await this.messageRepository.find({
-        where: { to },
-        take: limit,
-        skip: offset,
-      });
-    } else {
-      messages = await this.messageRepository.find({
-        take: limit,
-        skip: offset,
-      });
-    }
+    // let messages: Message[];
 
-    return messages;
+    const [messages, total] = await this.messageRepository.findAndCount({
+      where: whereCondition,
+      skip: offset * limit,
+      take: limit,
+    });
+
+    return { messages, total };
   }
 
   findOne(id: number) {
