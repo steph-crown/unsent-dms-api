@@ -11,6 +11,7 @@ async function bootstrap() {
       'http://localhost:3000',
       'http://localhost:3001',
       'https://unsent-dms.netlify.app',
+      "https://unsent-dms.vercel.app"
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     preflightContinue: false,
